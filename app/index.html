@@ -154,6 +154,69 @@
                 }
             }, 400);
         }
+
+         function show_properties(obj, table){ 
+            if (table == null) return; 
+            if (obj == null) {
+                table.innerHTML = ""; 
+                return; 
+            } 
+
+            var metaObj = bimViewer.viewer.metaScene.metaObjects[obj.id]; 
+            var strType = 'Object'; 
+            var name = "-"; 
+            var desc = "-"; 
+            //var sets = null; 
+            if (metaObj != null){ 
+                //sets = metaObj.propertySets; 
+                strType = metaObj.getJSON().type; 
+
+                //alert(JSON.stringify(metaObj.getJSON())); 
+                name = metaObj.getJSON().name; 
+                var n = name.lastIndexOf(":"); 
+                if (n > 0) {
+                    name = name.substring(0, n); 
+                }
+                n = name.indexOf(":"); 
+                if (n > 0){
+                    desc = name.substring(n + 1); 
+                    name = name.substring(0, n); 
+                }
+                n = desc.indexOf(":"); 
+                if (n > 0){
+                    desc = desc.substring(0, n); 
+                } 
+            } 
+
+            var x1, x2, y1, y2, z1, z2; 
+            x1 = obj.aabb[0]; y1 = obj.aabb[1]; z1 = obj.aabb[2]; 
+            x2 = obj.aabb[3]; y2 = obj.aabb[4]; z2 = obj.aabb[5]; 
+            var length = 10 * Math.round(100 * (obj.aabb[3] - obj.aabb[0])); 
+            var width = 10 * Math.round(100 * (obj.aabb[5] - obj.aabb[2])); 
+            var height = 10 * Math.round(100 * (obj.aabb[4] - obj.aabb[1])); 
+
+            var str = "<table>" + String.fromCharCode(13) + 
+            "<tr><td>Type </td><td>" + strType + 
+                "</td></tr>" + String.fromCharCode(13) + 
+            "<tr><td>Object ID </td><td>" + obj.id + 
+                "</td></tr>" + String.fromCharCode(13) + 
+            "<tr><td>Name </td><td>" + name + 
+                "</td></tr>" + String.fromCharCode(13) + 
+            "<tr><td>Description </td><td>" + desc + 
+                "</td></tr>" + String.fromCharCode(13) + 
+            '<tr><td>ColorRGB </td><td>{' + 
+            Math.round(obj.colorize[0] * 255).toString() + ', ' + 
+            Math.round(obj.colorize[1] * 255).toString() + ', ' + 
+            Math.round(obj.colorize[2] * 255).toString() + '}</td></tr>' + 
+            "<tr><td>Length </td><td>" + Math.max(length, width).toString() + 
+                "</td></tr>" + String.fromCharCode(13) + 
+            "<tr><td>Width </td><td>" + Math.min(length, width).toString() + 
+                "</td></tr>" + String.fromCharCode(13) + 
+            "<tr><td>Height </td><td>" + height.toString() + 
+                "</td></tr>" + String.fromCharCode(13) + 
+            "</table>"; 
+            table.innerHTML = str; 
+        }
         
         function parseHashParams() {
             const params = getHashParams();
@@ -254,6 +317,42 @@
         }
 
         window.bimViewer = bimViewer;
+
+        var viewer = bimViewer.viewer; 
+
+        var lastEntity = null; 
+        viewer.scene.input.on("click", function (coords) { 
+          var hit = viewer.scene.pick({ 
+            canvasPos: coords 
+          }); 
+          var button = document.getElementById("inspector_toggle"); 
+          var info = document.getElementById("myInspector"); 
+          if ((button == null) || (info == null)) return; 
+          //var table = info.querySelector(".xeokit-table"); 
+          if (hit) { 
+            if (!lastEntity || hit.entity.id !== lastEntity.id) { 
+              if (lastEntity) { 
+                lastEntity.highlighted = false; 
+              } 
+              lastEntity = hit.entity; 
+              hit.entity.highlighted = true; 
+              button.checked = true; 
+              info.style.display = 'block'; 
+              show_properties(lastEntity, info.querySelector(".element-attributes")); 
+              //bimViewer.showObjectProperties(entity.id); 
+            } 
+          } else { 
+            if (lastEntity) { 
+              lastEntity.highlighted = false; 
+              lastEntity = null; 
+              button.checked = false; 
+              info.style.display = 'none'; 
+              //info.querySelector(".xeokit-table").innerHTML = ""; 
+              //bimViewer.showObjectProperties(""); 
+            } 
+          } 
+        }); 
+        
     }
 
 </script>
