@@ -197,6 +197,7 @@
             var length = 10 * Math.round(100 * (obj.aabb[3] - obj.aabb[0])); 
             var width = 10 * Math.round(100 * (obj.aabb[5] - obj.aabb[2])); 
             var height = 10 * Math.round(100 * (obj.aabb[4] - obj.aabb[1])); 
+            var elev = 10 * Math.round(100 * (obj.aabb[1])); 
 
             var str = "<table>" + String.fromCharCode(13) + 
             "<tr><td>Type </td><td>" + strType + 
@@ -216,6 +217,8 @@
             "<tr><td>Width </td><td>" + Math.min(length, width).toString() + 
                 "</td></tr>" + String.fromCharCode(13) + 
             "<tr><td>Height </td><td>" + height.toString() + 
+                "</td></tr>" + String.fromCharCode(13) + 
+            "<tr><td>Elevation </td><td>" + elev.toString() + 
                 "</td></tr>" + String.fromCharCode(13) + 
             "</table>"; 
             table.innerHTML = str; 
