@@ -75,12 +75,12 @@ th, td {
 }
 
 .xeokit-tabs{
-  /*flex:auto;*/
+  flex:auto;
   display:flex; 
   flex-direction: row-reverse; 
   margin-left:auto;
   margin-right:0;
-  float:right; 
+  float:left; 
 }
 
 .xeokit-tabs .xeokit-tab-content {
