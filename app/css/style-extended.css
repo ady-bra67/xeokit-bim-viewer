@@ -79,7 +79,7 @@ th, td {
   flex-direction: row; 
   /*flex-direction: row-reverse; */
   margin-left:auto;
-  /*margin-right:0;*/
+  margin-right:0;
 }
 
 .xeokit-tabs .xeokit-tab-content {
