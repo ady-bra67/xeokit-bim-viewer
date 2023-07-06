@@ -76,11 +76,9 @@ th, td {
 
 .xeokit-tabs{
   flex:auto;
-  display:flex; 
   flex-direction: row-reverse; 
   margin-left:auto;
-  margin-right:0;
-  float:left; 
+  margin-right:0;  
 }
 
 .xeokit-tabs .xeokit-tab-content {
