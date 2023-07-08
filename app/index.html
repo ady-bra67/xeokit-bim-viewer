@@ -53,35 +53,7 @@
 
         ///////////////////////////////////////////////////////////
 
-         var viewer = new Viewer({ 
-        canvasId: "myCanvas", 
-        transparent: true 
-        }); 
-
-        viewer.scene.camera.eye = [0.00, 10.00, 0.00]; // Top view 
-        viewer.scene.camera.look = [0.00, 0.00, 0.00]; 
-        viewer.scene.camera.up = [0.00, 0.00, -1.00]; 
         
-        viewer.scene.xrayMaterial.fillAlpha = 0.1; 
-        viewer.scene.xrayMaterial.fillColor = [0, 0, 0]; 
-        viewer.scene.xrayMaterial.edgeAlpha = 0.4; 
-        viewer.scene.xrayMaterial.edgeColor = [0, 0, 0]; 
-  
-        viewer.scene.highlightMaterial.fill = true; 
-        viewer.scene.highlightMaterial.fillAlpha = 0.5; // 0.3 
-        viewer.scene.highlightMaterial.edgeColor = [1, 0, 0]; 
-
-        var canvas = document.getElementById("myCanvas"); 
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight; 
-        canvas.style.backgroundColor = "lightblue"; //"#ADD8E6" 
-        canvas.style.backgroundImage = "linear-gradient(to-down, lightblue, lightgray)"; 
-        canvas.style.zIndex = "1"; 
-        canvas.transparent = true; 
-  
-        new AmbientLight(viewer.scene, { 
-          color: [0.35, 0.35, 0.2], 
-          intensity: 1.0 
-        }); 
         
         ///////////////////////////////////////////////////////////
 
@@ -195,6 +167,8 @@
             }, 400); 
         }
 
+        //// Added custom function for showing selected objects properties in the right palette
+        
          function show_properties(obj, table){ 
             if (table == null) return; 
             if (obj == null) {
@@ -260,6 +234,8 @@
             "</table>"; 
             table.innerHTML = str; 
         }
+        
+        //////
         
         function parseHashParams() {
             const params = getHashParams();
@@ -362,14 +338,9 @@
         window.bimViewer = bimViewer; 
         
         ///////
-
-        //var // already created before the Server was started
         
-        viewer = bimViewer.viewer; 
-
-        //var // already created 
-        
-        canvas = viewer.scene.canvas; 
+        var viewer = bimViewer.viewer;         
+        var canvas = viewer.scene.canvas; 
     
         if (canvas !== null) {
             canvas.backgroundColorFromAmbientLight = false; 
@@ -379,9 +350,8 @@
         }
 
         var cube = viewer.scene.components["myNavCubeCanvas"]; 
-
-        //if (cube !== null) { 
-        if (cube == null) { 
+        
+        if (cube !== null) { 
             cube = new NavCubePlugin(viewer, { 
                 canvasId: "myNavCubeCanvas", 
                 visible: true, 
