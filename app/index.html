@@ -329,6 +329,40 @@
 
         var viewer = bimViewer.viewer; 
 
+        var canvas = viewer.scene.canvas; 
+        if (canvas !== null) {
+            canvas.backgroundColorFromAmbientLight = false; 
+            canvas.transparent = true;
+            canvas.backgroundColor = [0.678, 0.847, 0.902]; // lightblue 
+        }
+
+        var cube = viewer.scene.components["myNavCubeCanvas"]; 
+
+        //if (cube !== null) { 
+        if (cube == null) { 
+            cube = new NavCubePlugin(viewer, { 
+                canvasId: "myNavCubeCanvas", 
+                visible: true, 
+                size: 250, 
+                alignment: "bottomRight", 
+                bottomMargin: 10, 
+                rightMargin: 10,
+                transparent: false, 
+                color: "lightblue", 
+                frontColor: "#FF0000",
+                backColor: "#0000FF",
+                leftColor: "#00FFFF", 
+                rightColor: "#FF00FF",
+                topColor: "#FFFF00",
+                bottomColor: "#00FF00"
+            }); 
+
+            cube.id = "myNavCubeCanvas"; 
+            viewer.scene.components["myNavCubeCanvas"] = cube; 
+
+            // find a way to refresh the colors of this cube 
+        } 
+
         var lastEntity = null; 
         viewer.scene.input.on("click", function (coords) { 
           var hit = viewer.scene.pick({ 
