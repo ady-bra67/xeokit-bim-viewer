@@ -350,7 +350,8 @@
 
         var cube = viewer.scene.components["myNavCubeCanvas"]; 
         
-        if (cube !== null) { 
+        if (cube == null) { 
+            // Create another instance of the cube navigator, which can display faces with colors
             cube = new NavCubePlugin(viewer, { 
                 canvasId: "myNavCubeCanvas", 
                 visible: true, 
@@ -372,6 +373,7 @@
             viewer.scene.components["myNavCubeCanvas"] = cube; 
 
             // find a way to refresh the colors of this cube 
+            // When hovering with the mouse it displays a default white color 
         } 
 
         var lastEntity = null; 
